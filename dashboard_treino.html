@@ -31,6 +31,12 @@
   .na { color: #ccc; }
   .alert { background: #fef9ec; border: 0.5px solid #f3d567; border-radius: 10px; padding: 0.75rem 1rem; font-size: 13px; color: #92611a; display: flex; gap: 8px; margin-top: 1.5rem; }
   .note { background: #f0f4fa; border: 0.5px solid #c8d6ea; border-radius: 10px; padding: 0.75rem 1rem; font-size: 12.5px; color: #34506e; margin-top: 1rem; }
+  .next-workout { background: #fff; border: 0.5px solid #c8d6ea; border-left: 4px solid #2a78d6; border-radius: 10px; padding: 1rem; }
+  .next-workout-header { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 7px; }
+  .next-workout-type { font-size: 20px; font-weight: 600; color: #0b0b0b; }
+  .next-workout-duration { font-size: 12px; font-weight: 600; color: #1d4ed8; background: #dbeafe; border-radius: 20px; padding: 3px 9px; }
+  .next-workout-plan { font-size: 13px; color: #34506e; line-height: 1.5; }
+  .next-workout-basis { font-size: 11px; color: #999; margin-top: 8px; }
   .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 11px; color: #666; margin-top: 10px; }
   .legend span { display: flex; align-items: center; gap: 5px; }
   .dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
@@ -49,6 +55,18 @@
 </div>
 
 <div class="note">📌 Intervalo de 10 dias sem registros entre 04/07 e 14/07. ⚙️ A partir de 28/08, LTHR ajustado de 165 → 180 bpm com base no teste TAF-CAS (FC máx 200 bpm). Atividades de 21/08, 05/09, 06/09, 12/09 e 29/08 sem dados de FC.</div>
+
+<div class="section" style="margin-top:1.5rem;">
+  <div class="section-title">Próximo treino sugerido</div>
+  <div class="next-workout">
+    <div class="next-workout-header">
+      <div class="next-workout-type">Regenerativo</div>
+      <div class="next-workout-duration">30 min leves</div>
+    </div>
+    <div class="next-workout-plan">5 min de caminhada · 20 min de trote confortável · 5 min de caminhada</div>
+    <div class="next-workout-basis">Sugestão para 14/09 · baseada no TSB −1,9 e na corrida de 6,12 km em 13/09</div>
+  </div>
+</div>
 
 <div class="section">
   <div class="section-title">Carga de treino — TSI diário e últimos 7 dias</div>
