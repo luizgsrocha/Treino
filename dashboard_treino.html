@@ -4,56 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard de Treino</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js">
-const periodButtons = [...document.querySelectorAll('.period-btn')];
-const periodStatus = document.getElementById('periodStatus');
-const periodCharts = [tsiChart, kmChart, hrChart, fitnessChart, tsbChart].map(chart => ({
-  chart,
-  labels: [...chart.data.labels],
-  datasets: chart.data.datasets.map(dataset => [...dataset.data])
-}));
-
-function labelDate(label) {
-  const match = String(label).match(/(\d{2})\/(\d{2})/);
-  return match ? new Date(Date.UTC(2026, Number(match[2]) - 1, Number(match[1]))) : null;
-}
-
-function formatPeriodDate(date) {
-  return date.toLocaleDateString('pt-BR', { timeZone: 'UTC', day: '2-digit', month: '2-digit' });
-}
-
-function applyDashboardPeriod(period) {
-  activeDashboardPeriod = period;
-  const cutoff = selectedPeriodCutoff();
-
-  periodCharts.forEach(({ chart, labels, datasets }) => {
-    const indexes = labels
-      .map((label, index) => ({ index, date: labelDate(label) }))
-      .filter(item => !cutoff || (item.date && item.date >= cutoff && item.date <= dashboardEndDate))
-      .map(item => item.index);
-
-    chart.data.labels = indexes.map(index => labels[index]);
-    chart.data.datasets.forEach((dataset, datasetIndex) => {
-      dataset.data = indexes.map(index => datasets[datasetIndex][index]);
-    });
-    chart.update();
-  });
-
-  periodButtons.forEach(button => {
-    const active = button.dataset.period === period;
-    button.classList.toggle('active', active);
-    button.setAttribute('aria-pressed', String(active));
-  });
-
-  const firstDate = cutoff || new Date(Date.UTC(2026, 5, 24));
-  periodStatus.textContent = `Exibindo ${formatPeriodDate(firstDate)} a ${formatPeriodDate(dashboardEndDate)} · cálculos preservam todo o histórico`;
-  renderActivityTable();
-}
-
-periodButtons.forEach(button => button.addEventListener('click', () => applyDashboardPeriod(button.dataset.period)));
-applyDashboardPeriod('4w');
-
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f3; color: #0b0b0b; padding: 1.5rem; }
@@ -506,6 +457,55 @@ const tsbChart = new Chart(document.getElementById('tsbChart'), {
     }
   }
 });
+
+
+const periodButtons = [...document.querySelectorAll('.period-btn')];
+const periodStatus = document.getElementById('periodStatus');
+const periodCharts = [tsiChart, kmChart, hrChart, fitnessChart, tsbChart].map(chart => ({
+  chart,
+  labels: [...chart.data.labels],
+  datasets: chart.data.datasets.map(dataset => [...dataset.data])
+}));
+
+function labelDate(label) {
+  const match = String(label).match(/(\d{2})\/(\d{2})/);
+  return match ? new Date(Date.UTC(2026, Number(match[2]) - 1, Number(match[1]))) : null;
+}
+
+function formatPeriodDate(date) {
+  return date.toLocaleDateString('pt-BR', { timeZone: 'UTC', day: '2-digit', month: '2-digit' });
+}
+
+function applyDashboardPeriod(period) {
+  activeDashboardPeriod = period;
+  const cutoff = selectedPeriodCutoff();
+
+  periodCharts.forEach(({ chart, labels, datasets }) => {
+    const indexes = labels
+      .map((label, index) => ({ index, date: labelDate(label) }))
+      .filter(item => !cutoff || (item.date && item.date >= cutoff && item.date <= dashboardEndDate))
+      .map(item => item.index);
+
+    chart.data.labels = indexes.map(index => labels[index]);
+    chart.data.datasets.forEach((dataset, datasetIndex) => {
+      dataset.data = indexes.map(index => datasets[datasetIndex][index]);
+    });
+    chart.update();
+  });
+
+  periodButtons.forEach(button => {
+    const active = button.dataset.period === period;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
+
+  const firstDate = cutoff || new Date(Date.UTC(2026, 5, 24));
+  periodStatus.textContent = `Exibindo ${formatPeriodDate(firstDate)} a ${formatPeriodDate(dashboardEndDate)} · cálculos preservam todo o histórico`;
+  renderActivityTable();
+}
+
+periodButtons.forEach(button => button.addEventListener('click', () => applyDashboardPeriod(button.dataset.period)));
+applyDashboardPeriod('4w');
 </script>
 </body>
 </html>
