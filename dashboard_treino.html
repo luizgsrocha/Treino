@@ -41,10 +41,12 @@
   .legend span { display: flex; align-items: center; gap: 5px; }
   .dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
   .gap-row td { background: #fafafa; color: #bbb; font-size: 11px; text-align: center; font-style: italic; }
-  .activity-filters { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 8px; }
-  .filter-btn { appearance: none; border: 0.5px solid #d7d7d2; background: #fff; color: #666; border-radius: 20px; padding: 6px 10px; font: inherit; font-size: 11px; cursor: pointer; }
-  .filter-btn:hover { border-color: #2a78d6; color: #1d4ed8; }
-  .filter-btn.active { background: #2a78d6; border-color: #2a78d6; color: #fff; font-weight: 600; }
+  .activity-filters, .activity-sort { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 8px; }
+  .activity-sort { align-items: center; margin-top: 2px; }
+  .sort-label { color: #888; font-size: 11px; margin-right: 2px; }
+  .filter-btn, .sort-btn { appearance: none; border: 0.5px solid #d7d7d2; background: #fff; color: #666; border-radius: 20px; padding: 6px 10px; font: inherit; font-size: 11px; cursor: pointer; }
+  .filter-btn:hover, .sort-btn:hover { border-color: #2a78d6; color: #1d4ed8; }
+  .filter-btn.active, .sort-btn.active { background: #2a78d6; border-color: #2a78d6; color: #fff; font-weight: 600; }
   .filter-status { min-height: 15px; margin-bottom: 8px; color: #999; font-size: 11px; }
     @media (max-width: 600px) { .kpi-row { grid-template-columns: repeat(2, 1fr); } }
 </style>
@@ -126,6 +128,11 @@
     <button class="filter-btn" type="button" data-filter="walk">Caminhada</button>
     <button class="filter-btn" type="button" data-filter="recent">Últimos 7 dias</button>
     <button class="filter-btn" type="button" data-filter="nohr">Sem FC</button>
+  </div>
+  <div class="activity-sort" role="group" aria-label="Ordenar atividades">
+    <span class="sort-label">Ordenar:</span>
+    <button class="sort-btn active" type="button" data-sort="desc">Mais recentes</button>
+    <button class="sort-btn" type="button" data-sort="asc">Mais antigas</button>
   </div>
   <div class="filter-status" id="filterStatus" aria-live="polite"></div>
   <div class="chart-wrap" style="padding:0;">
@@ -210,13 +217,18 @@ const gridColor = '#eeede8';
 const textMuted = '#aaa';
 
 const activityTable = document.getElementById('activityTable');
-const allTableRows = [...activityTable.tBodies[0].rows];
+const activityBody = activityTable.tBodies[0];
+const allTableRows = [...activityBody.rows];
 const activityRows = allTableRows.filter(row => row.cells.length === 7 && !row.classList.contains('gap-row'));
+const activityOrder = new Map(activityRows.map((row, index) => [row, index]));
 const filterButtons = [...document.querySelectorAll('.filter-btn')];
+const sortButtons = [...document.querySelectorAll('.sort-btn')];
 const filterStatus = document.getElementById('filterStatus');
 const dashboardEndDate = new Date(Date.UTC(2026, 8, 14));
 const recentCutoff = new Date(dashboardEndDate);
 recentCutoff.setUTCDate(recentCutoff.getUTCDate() - 6);
+let activeActivityFilter = 'all';
+let activeActivitySort = 'desc';
 
 function activityDate(row) {
   const match = row.cells[0].textContent.match(/(\d{2})\/(\d{2})/);
@@ -237,26 +249,58 @@ function rowMatches(row, filter) {
   return true;
 }
 
-function applyActivityFilter(filter) {
-  let visibleActivities = 0;
-  allTableRows.forEach(row => {
-    const isActivity = activityRows.includes(row);
-    const visible = filter === 'all' ? true : isActivity && rowMatches(row, filter);
-    row.hidden = !visible;
-    if (isActivity && visible) visibleActivities++;
+function renderActivityTable() {
+  const filtered = activityRows.filter(row => rowMatches(row, activeActivityFilter));
+  const sorted = [...filtered].sort((a, b) => {
+    const dateDifference = activityDate(a) - activityDate(b);
+    const byDate = activeActivitySort === 'desc' ? -dateDifference : dateDifference;
+    return byDate || activityOrder.get(a) - activityOrder.get(b);
   });
+
+  if (activeActivitySort === 'asc' && activeActivityFilter === 'all') {
+    allTableRows.forEach(row => {
+      activityBody.append(row);
+      row.hidden = false;
+    });
+  } else {
+    sorted.forEach(row => {
+      activityBody.append(row);
+      row.hidden = false;
+    });
+    allTableRows.filter(row => !activityRows.includes(row)).forEach(row => {
+      activityBody.append(row);
+      row.hidden = true;
+    });
+    activityRows.filter(row => !filtered.includes(row)).forEach(row => {
+      activityBody.append(row);
+      row.hidden = true;
+    });
+  }
+
   filterButtons.forEach(button => {
-    const active = button.dataset.filter === filter;
+    const active = button.dataset.filter === activeActivityFilter;
     button.classList.toggle('active', active);
     button.setAttribute('aria-pressed', String(active));
   });
-  filterStatus.textContent = filter === 'all'
-    ? `${activityRows.length} atividades registradas`
-    : `Exibindo ${visibleActivities} atividade${visibleActivities === 1 ? '' : 's'}`;
+  sortButtons.forEach(button => {
+    const active = button.dataset.sort === activeActivitySort;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
+
+  const orderText = activeActivitySort === 'desc' ? 'mais recentes primeiro' : 'mais antigas primeiro';
+  filterStatus.textContent = `${filtered.length} atividade${filtered.length === 1 ? '' : 's'} · ${orderText}`;
 }
 
-filterButtons.forEach(button => button.addEventListener('click', () => applyActivityFilter(button.dataset.filter)));
-applyActivityFilter('all');
+filterButtons.forEach(button => button.addEventListener('click', () => {
+  activeActivityFilter = button.dataset.filter;
+  renderActivityTable();
+}));
+sortButtons.forEach(button => button.addEventListener('click', () => {
+  activeActivitySort = button.dataset.sort;
+  renderActivityTable();
+}));
+renderActivityTable();
 
 new Chart(document.getElementById('tsiChart'), {
   data: {
