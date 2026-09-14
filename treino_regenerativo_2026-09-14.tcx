@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TrainingCenterDatabase xmlns="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns3="http://www.garmin.com/xmlschemas/ActivityExtension/v2" xsi:schemaLocation="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 http://www.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd">
+  <Activities>
+    <Activity Sport="Running">
+      <Id>2026-09-14T13:50:00Z</Id>
+      <Lap StartTime="2026-09-14T13:50:00Z">
+        <TotalTimeSeconds>1800</TotalTimeSeconds>
+        <DistanceMeters>3083.33</DistanceMeters>
+        <MaximumSpeed>1.9444</MaximumSpeed>
+        <AverageHeartRateBpm><Value>131</Value></AverageHeartRateBpm>
+        <MaximumHeartRateBpm><Value>155</Value></MaximumHeartRateBpm>
+        <Intensity>Active</Intensity>
+        <TriggerMethod>Manual</TriggerMethod>
+        <Track>
+          <Trackpoint><Time>2026-09-14T13:50:00Z</Time><DistanceMeters>0.00</DistanceMeters><HeartRateBpm><Value>98</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.3889</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T13:51:00Z</Time><DistanceMeters>83.33</DistanceMeters><HeartRateBpm><Value>99</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.3889</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T13:52:00Z</Time><DistanceMeters>166.67</DistanceMeters><HeartRateBpm><Value>101</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.3889</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T13:53:00Z</Time><DistanceMeters>250.00</DistanceMeters><HeartRateBpm><Value>103</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.3889</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T13:54:00Z</Time><DistanceMeters>333.33</DistanceMeters><HeartRateBpm><Value>106</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.3889</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T13:55:00Z</Time><DistanceMeters>416.67</DistanceMeters><HeartRateBpm><Value>108</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.9444</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T13:56:00Z</Time><DistanceMeters>533.33</DistanceMeters><HeartRateBpm><Value>110</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.9444</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T13:57:00Z</Time><DistanceMeters>650.00</DistanceMeters><HeartRateBpm><Value>114</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.9444</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T13:58:00Z</Time><DistanceMeters>766.67</DistanceMeters><HeartRateBpm><Value>118</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.9444</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T13:59:00Z</Time><DistanceMeters>883.33</DistanceMeters><HeartRateBpm><Value>123</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.9444</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:00:00Z</Time><DistanceMeters>1000.00</DistanceMeters><HeartRateBpm><Value>128</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.9444</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:01:00Z</Time><DistanceMeters>1116.67</DistanceMeters><HeartRateBpm><Value>133</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.9444</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:02:00Z</Time><DistanceMeters>1233.33</DistanceMeters><HeartRateBpm><Value>138</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.9444</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:03:00Z</Time><DistanceMeters>1350.00</DistanceMeters><HeartRateBpm><Value>142</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.9444</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:04:00Z</Time><DistanceMeters>1466.67</DistanceMeters><HeartRateBpm><Value>145</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.9444</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:05:00Z</Time><DistanceMeters>1583.33</DistanceMeters><HeartRateBpm><Value>147</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.9444</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:06:00Z</Time><DistanceMeters>1700.00</DistanceMeters><HeartRateBpm><Value>148</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.9444</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:07:00Z</Time><DistanceMeters>1816.67</DistanceMeters><HeartRateBpm><Value>149</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.9444</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:08:00Z</Time><DistanceMeters>1933.33</DistanceMeters><HeartRateBpm><Value>149</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.9444</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:09:00Z</Time><DistanceMeters>2050.00</DistanceMeters><HeartRateBpm><Value>150</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.9444</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:10:00Z</Time><DistanceMeters>2166.67</DistanceMeters><HeartRateBpm><Value>151</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.9444</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:11:00Z</Time><DistanceMeters>2283.33</DistanceMeters><HeartRateBpm><Value>152</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.9444</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:12:00Z</Time><DistanceMeters>2400.00</DistanceMeters><HeartRateBpm><Value>153</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.9444</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:13:00Z</Time><DistanceMeters>2516.67</DistanceMeters><HeartRateBpm><Value>154</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.9444</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:14:00Z</Time><DistanceMeters>2633.33</DistanceMeters><HeartRateBpm><Value>155</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.9444</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:15:00Z</Time><DistanceMeters>2750.00</DistanceMeters><HeartRateBpm><Value>155</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.1111</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:16:00Z</Time><DistanceMeters>2816.67</DistanceMeters><HeartRateBpm><Value>155</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.1111</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:17:00Z</Time><DistanceMeters>2883.33</DistanceMeters><HeartRateBpm><Value>140</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.1111</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:18:00Z</Time><DistanceMeters>2950.00</DistanceMeters><HeartRateBpm><Value>125</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.1111</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:19:00Z</Time><DistanceMeters>3016.67</DistanceMeters><HeartRateBpm><Value>114</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.1111</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+          <Trackpoint><Time>2026-09-14T14:20:00Z</Time><DistanceMeters>3083.33</DistanceMeters><HeartRateBpm><Value>106</Value></HeartRateBpm><Extensions><ns3:TPX><ns3:Speed>1.1111</ns3:Speed></ns3:TPX></Extensions></Trackpoint>
+        </Track>
+        <Notes>Treino reconstruído a partir das velocidades informadas e da curva diária do Garmin Connect. FC intermediária estimada; pontos de referência visíveis: 98, 108, 149, 155 e 106 bpm.</Notes>
+      </Lap>
+      <Notes>5 min a 5 km/h, 20 min a 7 km/h e 5 min a 4 km/h. Distância calculada: 3,083 km.</Notes>
+    </Activity>
+  </Activities>
+</TrainingCenterDatabase>
