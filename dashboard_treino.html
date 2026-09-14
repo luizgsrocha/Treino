@@ -41,7 +41,12 @@
   .legend span { display: flex; align-items: center; gap: 5px; }
   .dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
   .gap-row td { background: #fafafa; color: #bbb; font-size: 11px; text-align: center; font-style: italic; }
-  @media (max-width: 600px) { .kpi-row { grid-template-columns: repeat(2, 1fr); } }
+  .activity-filters { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 8px; }
+  .filter-btn { appearance: none; border: 0.5px solid #d7d7d2; background: #fff; color: #666; border-radius: 20px; padding: 6px 10px; font: inherit; font-size: 11px; cursor: pointer; }
+  .filter-btn:hover { border-color: #2a78d6; color: #1d4ed8; }
+  .filter-btn.active { background: #2a78d6; border-color: #2a78d6; color: #fff; font-weight: 600; }
+  .filter-status { min-height: 15px; margin-bottom: 8px; color: #999; font-size: 11px; }
+    @media (max-width: 600px) { .kpi-row { grid-template-columns: repeat(2, 1fr); } }
 </style>
 </head>
 <body>
@@ -103,8 +108,17 @@
 
 <div class="section">
   <div class="section-title">Detalhe por atividade</div>
+  <div class="activity-filters" role="group" aria-label="Filtrar atividades">
+    <button class="filter-btn active" type="button" data-filter="all">Todas</button>
+    <button class="filter-btn" type="button" data-filter="run">Corrida</button>
+    <button class="filter-btn" type="button" data-filter="gym">Musculação</button>
+    <button class="filter-btn" type="button" data-filter="walk">Caminhada</button>
+    <button class="filter-btn" type="button" data-filter="recent">Últimos 7 dias</button>
+    <button class="filter-btn" type="button" data-filter="nohr">Sem FC</button>
+  </div>
+  <div class="filter-status" id="filterStatus" aria-live="polite"></div>
   <div class="chart-wrap" style="padding:0;">
-  <table>
+  <table id="activityTable">
     <thead><tr><th>Data</th><th>Tipo</th><th>Duração</th><th>Km</th><th>FC média</th><th>IS</th><th>TSI</th></tr></thead>
     <tbody>
       <tr><td>24/06</td><td><span class="badge run">Corrida</span></td><td>37:39</td><td>5,94</td><td>154 bpm</td><td>100%</td><td><strong>68</strong></td></tr>
@@ -182,6 +196,55 @@
 <script>
 const gridColor = '#eeede8';
 const textMuted = '#aaa';
+
+const activityTable = document.getElementById('activityTable');
+const allTableRows = [...activityTable.tBodies[0].rows];
+const activityRows = allTableRows.filter(row => row.cells.length === 7 && !row.classList.contains('gap-row'));
+const filterButtons = [...document.querySelectorAll('.filter-btn')];
+const filterStatus = document.getElementById('filterStatus');
+const dashboardEndDate = new Date(Date.UTC(2026, 8, 13));
+const recentCutoff = new Date(dashboardEndDate);
+recentCutoff.setUTCDate(recentCutoff.getUTCDate() - 6);
+
+function activityDate(row) {
+  const match = row.cells[0].textContent.match(/(\d{2})\/(\d{2})/);
+  return match ? new Date(Date.UTC(2026, Number(match[2]) - 1, Number(match[1]))) : null;
+}
+
+function rowMatches(row, filter) {
+  const badge = row.querySelector('.badge');
+  const type = badge ? badge.textContent.trim() : '';
+  if (filter === 'run') return type.includes('Corrida') || type === 'TAF - CAS';
+  if (filter === 'gym') return badge?.classList.contains('gym');
+  if (filter === 'walk') return type === 'Caminhada';
+  if (filter === 'nohr') return [...row.cells].some(cell => cell.textContent.includes('sem dados'));
+  if (filter === 'recent') {
+    const date = activityDate(row);
+    return date && date >= recentCutoff && date <= dashboardEndDate;
+  }
+  return true;
+}
+
+function applyActivityFilter(filter) {
+  let visibleActivities = 0;
+  allTableRows.forEach(row => {
+    const isActivity = activityRows.includes(row);
+    const visible = filter === 'all' ? true : isActivity && rowMatches(row, filter);
+    row.hidden = !visible;
+    if (isActivity && visible) visibleActivities++;
+  });
+  filterButtons.forEach(button => {
+    const active = button.dataset.filter === filter;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
+  filterStatus.textContent = filter === 'all'
+    ? `${activityRows.length} atividades registradas`
+    : `Exibindo ${visibleActivities} atividade${visibleActivities === 1 ? '' : 's'}`;
+}
+
+filterButtons.forEach(button => button.addEventListener('click', () => applyActivityFilter(button.dataset.filter)));
+applyActivityFilter('all');
 
 new Chart(document.getElementById('tsiChart'), {
   data: {
