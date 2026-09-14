@@ -64,7 +64,7 @@
 </div>
 
 <div class="section">
-  <div class="section-title">Km corridos por dia</div>
+  <div class="section-title">Distância por dia — corrida e caminhada</div>
   <div class="chart-wrap" style="height: 160px;"><canvas id="kmChart"></canvas></div>
 </div>
 
@@ -191,15 +191,18 @@ new Chart(document.getElementById('tsiChart'), {
 new Chart(document.getElementById('kmChart'), {
   type: 'bar',
   data: {
-    labels: ['24/06','26/06','01/07','04/07','27/07','28/07','30/07','03/08','14/08','15/08','26/08','27/08','28/08','30/08','03/09','13/09'],
-    datasets: [{ label: 'Km corridos', data: [5.94, 5.69, 4.10, 1.24, 2.12, 3.00, 4.17, 3.00, 2.03, 4.80, 2.05, 3.01, 2.63, 5.37, 3.03, 6.12], backgroundColor: '#2a78d6', borderRadius: 5 }]
+    labels: ['24/06','26/06','28/06','01/07','04/07','27/07','28/07','30/07','03/08','14/08','15/08','26/08','27/08','28/08','30/08','03/09','12/09','13/09'],
+    datasets: [
+      { label: 'Corrida', data: [5.94,5.69,0,4.10,1.24,2.12,3.00,4.17,3.00,2.03,0,2.05,3.01,2.63,0,3.03,2.00,6.12], backgroundColor: '#2a78d6', borderRadius: 5 },
+      { label: 'Caminhada', data: [0,0,5.97,0,1.76,0,0,0,0,0,4.80,0,0,0,5.37,0,0,0], backgroundColor: '#1baf7a', borderRadius: 5 }
+    ]
   },
   options: {
     responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
+    plugins: { legend: { display: true, position: 'top', labels: { color: '#666', font: { size: 11 }, boxWidth: 12 } } },
     scales: {
-      x: { ticks: { color: textMuted, font: { size: 11 } }, grid: { color: gridColor }, border: { color: gridColor } },
-      y: { min: 0, max: 8, ticks: { color: textMuted, font: { size: 11 }, callback: v => v + ' km' }, grid: { color: gridColor }, border: { color: gridColor } }
+      x: { stacked: true, ticks: { color: textMuted, font: { size: 11 } }, grid: { color: gridColor }, border: { color: gridColor } },
+      y: { stacked: true, min: 0, max: 8, ticks: { color: textMuted, font: { size: 11 }, callback: v => v + ' km' }, grid: { color: gridColor }, border: { color: gridColor } }
     }
   }
 });
