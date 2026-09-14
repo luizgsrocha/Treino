@@ -51,7 +51,7 @@
 <div class="note">📌 Intervalo de 10 dias sem registros entre 04/07 e 14/07. ⚙️ A partir de 28/08, LTHR ajustado de 165 → 180 bpm com base no teste TAF-CAS (FC máx 200 bpm). Atividades de 21/08, 05/09, 06/09, 12/09 e 29/08 sem dados de FC.</div>
 
 <div class="section">
-  <div class="section-title">TSI diário e carga acumulada</div>
+  <div class="section-title">Carga de treino — TSI diário e últimos 7 dias</div>
   <div class="chart-wrap" style="height: 240px;"><canvas id="tsiChart"></canvas></div>
   <div class="legend">
     <span><span class="dot" style="background:#2a78d6"></span>Corrida</span>
@@ -59,7 +59,7 @@
     <span><span class="dot" style="background:#1baf7a"></span>Caminhada</span>
     <span><span class="dot" style="background:#7c3aed"></span>Musculação</span>
     <span><span class="dot" style="background:#06b6d4"></span>Bike</span>
-    <span><span class="dot" style="background:#eda100"></span>Acumulado</span>
+    <span><span class="dot" style="background:#eda100"></span>Carga dos últimos 7 dias</span>
   </div>
 </div>
 
@@ -172,7 +172,7 @@ new Chart(document.getElementById('tsiChart'), {
       { type: 'bar', label: 'TSI diário', data: [68, 61, 57, 18, 96, 58, 36, 24, 26, 0, 40, 24, 40, 22, 26, 15, 97, 17, 17, 23, 24, 53, 19, 22, 55],
         backgroundColor: ['#2a78d6','#2a78d6','#eda100','#1baf7a','#7c3aed','#7c3aed','#2a78d6','#06b6d4','#7c3aed','#7c3aed','#2a78d6','#7c3aed','#2a78d6','#2a78d6','#06b6d4','#2a78d6','#06b6d4','#06b6d4','#2a78d6','#2a78d6','#ef4444','#1baf7a','#7c3aed','#2a78d6','#2a78d6'],
         borderRadius: 5, yAxisID: 'y', order: 2 },
-      { type: 'line', label: 'Carga acumulada', data: [68, 129, 186, 204, 300, 358, 394, 418, 444, 444, 484, 508, 548, 570, 596, 611, 708, 725, 742, 765, 789, 842, 861, 883, 938],
+      { type: 'line', label: 'Carga dos últimos 7 dias', data: [68, 129, 186, 204, 232, 229, 208, 24, 50, 26, 40, 64, 104, 86, 48, 41, 112, 129, 17, 40, 64, 117, 136, 118, 55],
         borderColor: '#eda100', backgroundColor: 'rgba(237,161,0,0.07)', borderWidth: 2, borderDash: [4,3],
         pointRadius: 5, pointBackgroundColor: '#eda100', pointBorderColor: '#fff', pointBorderWidth: 2, tension: 0.3, fill: true, yAxisID: 'y2', order: 1 }
     ]
@@ -183,7 +183,7 @@ new Chart(document.getElementById('tsiChart'), {
     scales: {
       x: { ticks: { color: textMuted, font: { size: 10 } }, grid: { color: gridColor }, border: { color: gridColor } },
       y: { ticks: { color: textMuted, font: { size: 11 } }, grid: { color: gridColor }, border: { color: gridColor }, title: { display: true, text: 'TSI diário', color: textMuted, font: { size: 11 } } },
-      y2: { position: 'right', ticks: { color: '#eda100', font: { size: 11 } }, grid: { drawOnChartArea: false }, border: { color: gridColor }, title: { display: true, text: 'Acumulado', color: '#eda100', font: { size: 11 } } }
+      y2: { position: 'right', ticks: { color: '#eda100', font: { size: 11 } }, grid: { drawOnChartArea: false }, border: { color: gridColor }, title: { display: true, text: 'TSI nos últimos 7 dias', color: '#eda100', font: { size: 11 } } }
     }
   }
 });
