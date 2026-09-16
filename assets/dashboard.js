@@ -4,8 +4,11 @@ const paths = {
   config: './data/configuracoes.json'
 };
 
-const state = { period: '4w', filter: 'all', sort: 'desc', charts: {} };
-const colors = { grid:'#eeede8', muted:'#888', blue:'#2a78d6', green:'#1baf7a', orange:'#d88c00', red:'#d64545', purple:'#7c3aed', cyan:'#0891b2' };
+const state = { period: '4w', filter: 'all', sort: 'desc', charts: {}, model: null };
+const colors = { blue:'#2a78d6', green:'#1baf7a', orange:'#d88c00', red:'#d64545', purple:'#7c3aed', cyan:'#0891b2' };
+const themeKey = 'treino-theme';
+
+applyTheme(savedTheme());
 
 try {
   const [activities, sleep, config] = await Promise.all(Object.values(paths).map(loadJson));
@@ -39,6 +42,7 @@ function validateActivities(items) {
 
 function initialise(activities, sleep, config) {
   const model = buildModel(activities, sleep, config);
+  state.model = model;
   state.period = config.periodo_padrao || '4w';
   document.getElementById('goalTitle').textContent = `${config.meta_12_min_metros.toLocaleString('pt-BR')} m em 12 min`;
   document.getElementById('updatedAt').textContent = `Dados até ${formatFullDate(model.lastDate)}`;
@@ -91,6 +95,11 @@ function calculateForm(daily,{ ctl_dias, atl_dias }) {
 }
 
 function bindControls(model) {
+  applyTheme(savedTheme());
+  document.querySelectorAll('.theme-btn').forEach(button => button.addEventListener('click',() => {
+    applyTheme(button.dataset.theme);
+    renderCharts(model,selectedRange(model));
+  }));
   document.querySelectorAll('.period-btn').forEach(button => button.addEventListener('click',() => {
     state.period = button.dataset.period;
     setActive('.period-btn',button);
@@ -109,6 +118,24 @@ function bindControls(model) {
   const defaultButton = document.querySelector(`.period-btn[data-period="${state.period}"]`);
   if (defaultButton) setActive('.period-btn',defaultButton);
 }
+
+function savedTheme() {
+  try { return localStorage.getItem(themeKey) || 'auto'; }
+  catch { return 'auto'; }
+}
+
+function applyTheme(theme) {
+  const choice = ['auto','light','dark'].includes(theme) ? theme : 'auto';
+  if (choice === 'auto') document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.setAttribute('data-theme',choice);
+  try { localStorage.setItem(themeKey,choice); } catch {}
+  const active = document.querySelector(`.theme-btn[data-theme="${choice}"]`);
+  if (active) setActive('.theme-btn',active);
+}
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',() => {
+  if (savedTheme() === 'auto' && state.model) renderCharts(state.model,selectedRange(state.model));
+});
 
 function setActive(selector,activeButton) {
   document.querySelectorAll(selector).forEach(button => {
@@ -212,7 +239,8 @@ function renderCharts(model,range) {
 }
 
 function drawChart(id,config) { if (state.charts[id]) state.charts[id].destroy(); state.charts[id] = new Chart(document.getElementById(id),config); }
-function chartOptions(legend,stacked=false,dualAxis=false) { return { responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:legend,position:'top',labels:{boxWidth:12,color:'#666',font:{size:11}}},tooltip:{callbacks:{label:context => `${context.dataset.label}: ${formatNumber(context.parsed.y,1)}`}}},scales:{x:{stacked,ticks:{color:colors.muted,font:{size:9},maxTicksLimit:16},grid:{display:false}},y:{stacked,beginAtZero:false,ticks:{color:colors.muted,font:{size:10}},grid:{color:colors.grid}},y1:{display:dualAxis,position:'right',grid:{drawOnChartArea:false},ticks:{color:colors.orange,font:{size:10}}}}}; }
+function chartOptions(legend,stacked=false,dualAxis=false) { const theme=themeColors(); return { responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:legend,position:'top',labels:{boxWidth:12,color:theme.muted,font:{size:11}}},tooltip:{callbacks:{label:context => `${context.dataset.label}: ${formatNumber(context.parsed.y,1)}`}}},scales:{x:{stacked,ticks:{color:theme.muted,font:{size:9},maxTicksLimit:16},grid:{display:false}},y:{stacked,beginAtZero:false,ticks:{color:theme.muted,font:{size:10}},grid:{color:theme.grid}},y1:{display:dualAxis,position:'right',grid:{drawOnChartArea:false},ticks:{color:colors.orange,font:{size:10}}}}}; }
+function themeColors() { const style=getComputedStyle(document.documentElement); return { muted:style.getPropertyValue('--muted').trim(), grid:style.getPropertyValue('--grid').trim() }; }
 
 function renderTable(model) {
   const range = selectedRange(model);
