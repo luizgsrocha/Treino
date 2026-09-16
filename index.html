@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dashboard pessoal de treino com carga, forma, corrida, frequência cardíaca e recuperação.">
+  <title>Dashboard de Treino</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" defer></script>
+  <script type="module" src="assets/dashboard.js"></script>
+</head>
+<body>
+  <main>
+    <header class="page-header">
+      <div>
+        <h1>Dashboard de Treino — Rumo aos <span id="goalTitle">2.800 m em 12 min</span></h1>
+        <p id="updatedAt" class="muted">Carregando dados…</p>
+      </div>
+    </header>
+
+    <section class="period-panel" aria-label="Seleção do período">
+      <div class="period-controls" role="group" aria-label="Período exibido">
+        <span class="control-label">Período:</span>
+        <button class="chip period-btn" type="button" data-period="7d">7 dias</button>
+        <button class="chip period-btn active" type="button" data-period="4w">4 semanas</button>
+        <button class="chip period-btn" type="button" data-period="12w">12 semanas</button>
+        <button class="chip period-btn" type="button" data-period="all">Todo o período</button>
+      </div>
+      <p id="periodStatus" class="muted" aria-live="polite"></p>
+    </section>
+
+    <section class="kpi-row" aria-label="Indicadores principais">
+      <article class="kpi"><span class="kpi-label">TSI no período</span><strong id="totalTsi" class="kpi-value">—</strong><span id="activityCount" class="kpi-sub">—</span></article>
+      <article class="kpi"><span class="kpi-label">Km de corrida</span><strong id="runKm" class="kpi-value">—</strong><span id="runCount" class="kpi-sub">—</span></article>
+      <article class="kpi"><span class="kpi-label">Melhor estimativa em 12 min</span><strong id="best12min" class="kpi-value">—</strong><span id="goalProgress" class="kpi-sub">—</span></article>
+      <article class="kpi"><span class="kpi-label">Forma atual</span><strong id="currentForm" class="kpi-value">—</strong><span id="currentFormStatus" class="kpi-sub">—</span></article>
+    </section>
+
+    <div id="activitySummary" class="note" aria-live="polite"></div>
+
+    <section class="section">
+      <h2>Próximo treino sugerido</h2>
+      <article class="next-workout">
+        <div class="next-workout-header"><strong id="nextWorkoutType">—</strong><span id="nextWorkoutDuration" class="pill">—</span></div>
+        <p id="nextWorkoutPlan"></p>
+        <p id="nextWorkoutBasis" class="muted"></p>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2>Sono e recuperação</h2>
+      <div id="sleepKpis" class="kpi-row"></div>
+      <div id="sleepSummary" class="note"></div>
+    </section>
+
+    <section class="section">
+      <h2>Carga de treino — TSI diário e carga de 7 dias</h2>
+      <div class="chart-wrap chart-lg"><canvas id="tsiChart"></canvas></div>
+    </section>
+
+    <section class="section">
+      <h2>Distância por dia</h2>
+      <div class="chart-wrap chart-sm"><canvas id="kmChart"></canvas></div>
+    </section>
+
+    <section class="section">
+      <h2>Frequência cardíaca por atividade</h2>
+      <div class="chart-wrap chart-md"><canvas id="hrChart"></canvas></div>
+      <p id="lthrNote" class="muted"></p>
+    </section>
+
+    <section class="section">
+      <h2>Fitness e fadiga</h2>
+      <div class="chart-wrap chart-lg"><canvas id="fitnessChart"></canvas></div>
+      <h2 class="subsection">Forma diária (TSB)</h2>
+      <div class="chart-wrap chart-md"><canvas id="tsbChart"></canvas></div>
+      <div id="formExplanation" class="note"></div>
+    </section>
+
+    <section class="section">
+      <h2>Detalhe por atividade</h2>
+      <div class="controls" role="group" aria-label="Filtrar atividades">
+        <button class="chip filter-btn active" type="button" data-filter="all">Todas</button>
+        <button class="chip filter-btn" type="button" data-filter="corrida">Corrida</button>
+        <button class="chip filter-btn" type="button" data-filter="musculacao">Musculação</button>
+        <button class="chip filter-btn" type="button" data-filter="caminhada">Caminhada</button>
+        <button class="chip filter-btn" type="button" data-filter="nohr">Sem FC</button>
+      </div>
+      <div class="controls" role="group" aria-label="Ordenar atividades">
+        <span class="control-label">Ordenar:</span>
+        <button class="chip sort-btn active" type="button" data-sort="desc">Mais recentes</button>
+        <button class="chip sort-btn" type="button" data-sort="asc">Mais antigas</button>
+      </div>
+      <p id="filterStatus" class="muted" aria-live="polite"></p>
+      <div class="table-wrap">
+        <table id="activityTable">
+          <caption>Atividades no período selecionado</caption>
+          <thead><tr><th>Data</th><th>Tipo</th><th>Duração</th><th>Km</th><th>FC média</th><th>IS</th><th>TSI</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <div id="sensorAlert" class="alert"></div>
+    <div id="errorState" class="alert error" hidden></div>
+  </main>
+</body>
+</html>
