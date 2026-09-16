@@ -1,0 +1,10 @@
+{
+  "meta_12_min_metros": 2800,
+  "lthr_historico": [
+    { "inicio": "2026-06-24", "fim": "2026-08-27", "valor_bpm": 165 },
+    { "inicio": "2026-08-28", "fim": null, "valor_bpm": 180 }
+  ],
+  "constantes_carga": { "ctl_dias": 42, "atl_dias": 7 },
+  "faixas_tsb": { "fadiga_elevada_ate": -15, "equilibrado_ate": 5 },
+  "periodo_padrao": "4w"
+}
