@@ -10,7 +10,7 @@ O projeto reúne o histórico de atividades para acompanhar a evolução até es
 
 ## 📊 Sobre o projeto
 
-O `dashboard_treino.html` apresenta um painel com os treinos registrados e indicadores como:
+O `dashboard_treino.html` carrega os registros de `data/atividades.json` e apresenta indicadores como:
 
 - distância percorrida;
 - duração das atividades;
@@ -26,3 +26,9 @@ A ideia é manter o histórico atualizado para avaliar a consistência dos trein
 ## 🌐 Dashboard publicado
 
 https://luizgsrocha.github.io/Treino/dashboard_treino.html
+
+## 🗂️ Fonte dos dados
+
+As atividades ficam centralizadas em `data/atividades.json`. A tabela e os gráficos de carga, distância e frequência cardíaca são gerados a partir desse arquivo, evitando a repetição dos mesmos dados em vários trechos do dashboard.
+
+Cada atividade possui um identificador, data, categoria, duração e, quando disponíveis, distância, frequência cardíaca, intensidade e TSI.
