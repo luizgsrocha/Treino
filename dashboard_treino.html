@@ -62,13 +62,13 @@
 <h1>Dashboard de Treino — Rumo aos 2.800 m em 12 min</h1>
 
 <div class="kpi-row">
-  <div class="kpi"><div class="kpi-label">TSI acumulado</div><div class="kpi-value">964</div><div class="kpi-sub">38 atividades registradas</div></div>
-  <div class="kpi"><div class="kpi-label">Km corridos nos últimos 7 dias</div><div class="kpi-value">11,20 km</div><div class="kpi-sub">09 a 15/09 · 3 corridas</div></div>
-  <div class="kpi"><div class="kpi-label">Melhor 12 min</div><div class="kpi-value">2,32 km</div><div class="kpi-sub">83% da meta de 2,80 km · TAF-CAS 28/08</div></div>
-  <div class="kpi"><div class="kpi-label">Forma atual</div><div class="kpi-value">TSB −2,2</div><div class="kpi-sub">leve fadiga</div></div>
+  <div class="kpi"><div class="kpi-label">TSI acumulado</div><div class="kpi-value" id="totalTsi">—</div><div class="kpi-sub" id="activityCount">—</div></div>
+  <div class="kpi"><div class="kpi-label">Km corridos nos últimos 7 dias</div><div class="kpi-value" id="recentRunKm">—</div><div class="kpi-sub" id="recentRunSummary">—</div></div>
+  <div class="kpi"><div class="kpi-label">Melhor 12 min</div><div class="kpi-value">2,32 km</div><div class="kpi-sub">83% da meta de 2,80 km · melhor resultado registrado</div></div>
+  <div class="kpi"><div class="kpi-label">Forma atual</div><div class="kpi-value" id="currentForm">—</div><div class="kpi-sub" id="currentFormStatus">—</div></div>
 </div>
 
-<div class="note">📌 Intervalo de 10 dias sem registros entre 04/07 e 14/07. ⚙️ A partir de 28/08, LTHR ajustado de 165 → 180 bpm com base no teste TAF-CAS (FC máx 200 bpm). Atividades de 21/08, 29/08, 05/09, 06/09, 12/09 e 15/09 sem dados de FC.</div>
+<div class="note" id="activitySummaryNote">Carregando resumo das atividades…</div>
 
 <div class="period-panel">
   <div class="period-controls" role="group" aria-label="Período exibido">
@@ -89,19 +89,13 @@
       <div class="next-workout-duration">25–35 min</div>
     </div>
     <div class="next-workout-plan">Corrida confortável em Z2 ou caminhada leve · sem tiros · optar por descanso se houver dor ou peso nas pernas</div>
-    <div class="next-workout-basis">Sugestão para 16/09 · baseada no TSB −2,2, nas corridas de 13 e 14/09 e no treino de core de 15/09</div>
+    <div class="next-workout-basis" id="nextWorkoutBasis">Sugestão baseada nos registros mais recentes.</div>
   </div>
 </div>
 
 <div class="section">
   <div class="section-title">Sono e recuperação</div>
-  <div class="kpi-row">
-    <div class="kpi"><div class="kpi-label">Média nas últimas 4 semanas</div><div class="kpi-value">7h28</div><div class="kpi-sub">21 noites registradas</div></div>
-    <div class="kpi"><div class="kpi-label">Semana de 08 a 14/09</div><div class="kpi-value">8h01</div><div class="kpi-sub">média parcial · 4 de 7 noites</div></div>
-    <div class="kpi"><div class="kpi-label">Último registro</div><div class="kpi-value">7h33</div><div class="kpi-sub">sono de 12/09</div></div>
-    <div class="kpi"><div class="kpi-label">Noites abaixo de 7h</div><div class="kpi-value">6</div><div class="kpi-sub">nas últimas 4 semanas</div></div>
-  </div>
-  <div class="note">Dados do Garmin Connect: 21 de 28 noites registradas. Sem dados em 21/08, 24/08, 02/09, 06/09, 11/09, 13/09 e 14/09. Os arquivos exportados não incluem pontuação do sono, HRV ou estágios. A variação entre 3h32 e 10h40 indica horários e durações irregulares.</div>
+  <div class="note">Os indicadores de sono voltarão a esta seção quando os registros forem centralizados em uma fonte própria. Assim, médias, períodos e último registro não ficarão desatualizados no HTML.</div>
 </div>
 
 <div class="section">
@@ -125,7 +119,7 @@
 <div class="section">
   <div class="section-title">FC por atividade</div>
   <div class="chart-wrap" style="height: 200px;"><canvas id="hrChart"></canvas></div>
-  <div style="font-size:11px;color:#aaa;margin-top:6px;">Linha pontilhada = LTHR (165 bpm até 27/08; 180 bpm a partir de 28/08)</div>
+  <div style="font-size:11px;color:#aaa;margin-top:6px;">Referências de LTHR usadas no histórico: anterior 165 bpm · atual 180 bpm</div>
 </div>
 
 <div class="section">
@@ -141,8 +135,8 @@
     <span><span class="dot" style="background:rgba(227,73,72,0.65)"></span>Fadiga elevada</span>
   </div>
   <div class="note" style="margin-top:10px;">
-    <strong>Hoje (15/09):</strong> CTL (fitness) 8,7 · ATL (fadiga) 10,9 · <strong>TSB −2,2</strong> — fadiga leve após dois dias de corrida seguidos por treino de core.<br><br>
-    <strong>Como ler:</strong> o primeiro gráfico compara condicionamento e fadiga recente. O segundo mostra apenas o resultado dessa comparação: TSB = CTL − ATL. Valores positivos indicam maior frescor; valores negativos indicam fadiga. A partir de 28/08 o LTHR usado no cálculo passou de 165 para 180 bpm (teste TAF-CAS).
+    <span id="currentFormDetail"></span>
+    <strong>Como ler:</strong> o primeiro gráfico compara condicionamento e fadiga recente. O segundo mostra apenas o resultado dessa comparação: TSB = CTL − ATL. Valores positivos indicam maior frescor; valores negativos indicam fadiga. O histórico preserva a mudança do LTHR de 165 para 180 bpm realizada após o teste TAF-CAS.
   </div>
 </div>
 
@@ -168,10 +162,10 @@
     <tbody></tbody>
   </table>
   </div>
-  <div style="font-size:11px;color:#aaa;margin-top:6px;">* Caminhada de recuperação (28/06) não contabilizada nos km de corrida &nbsp;·&nbsp; * FC de 14/07 (2ª atividade) muito baixa, possível erro de sensor &nbsp;·&nbsp; * FC média de 14/09 estimada pela curva diária do Garmin Connect &nbsp;·&nbsp; "sem dados" = sensor de FC não captou nessa atividade</div>
+  <div style="font-size:11px;color:#aaa;margin-top:6px;">Caminhadas não são contabilizadas nos quilômetros de corrida. “Sem dados” indica que a atividade não possui registro de frequência cardíaca.</div>
 </div>
 
-<div class="alert">⚠️ Vários dias com falha no sensor de FC (22/07 e 28/07) — sem esses dados não é possível calcular IS/TSI precisos para essas atividades. Considere verificar o ajuste da correia/relógio antes do próximo treino.</div>
+<div class="alert" id="sensorAlert">Verificando atividades sem frequência cardíaca…</div>
 
 <script type="module">
 const activitiesResponse = await fetch('./data/atividades.json');
@@ -191,6 +185,10 @@ const formatNumber = value => value == null ? '—' : String(value).replace('.',
 const formatDate = value => {
   const [year, month, day] = value.split('-');
   return `${day}/${month}`;
+};
+const formatFullDate = value => {
+  const [year, month, day] = value.split('-');
+  return `${day}/${month}/${year}`;
 };
 
 const activityBodyElement = document.querySelector('#activityTable tbody');
@@ -218,6 +216,68 @@ activities.forEach(activity => {
   dailyActivities.get(activity.data).push(activity);
 });
 const sortedDates = [...dailyActivities.keys()].sort();
+const firstActivityDate = sortedDates[0];
+const latestActivityDate = sortedDates.at(-1);
+const latestActivityDateValue = new Date(latestActivityDate + 'T00:00:00Z');
+const recentActivityStart = new Date(latestActivityDateValue);
+recentActivityStart.setUTCDate(recentActivityStart.getUTCDate() - 6);
+
+const recentRuns = activities.filter(activity => {
+  const date = new Date(activity.data + 'T00:00:00Z');
+  return activity.categoria === 'corrida' && date >= recentActivityStart && date <= latestActivityDateValue;
+});
+const recentRunDistance = recentRuns.reduce((total, activity) => total + (activity.distancia_km || 0), 0);
+const totalTsiValue = activities.reduce((total, activity) => total + (activity.tsi || 0), 0);
+const missingHeartRateDates = [...new Set(
+  activities.filter(activity => activity.fc_media_bpm == null).map(activity => activity.data)
+)];
+
+const activityDateValues = sortedDates.map(date => new Date(date + 'T00:00:00Z'));
+let longestGap = null;
+for (let index = 1; index < activityDateValues.length; index += 1) {
+  const daysWithoutRecords = Math.round((activityDateValues[index] - activityDateValues[index - 1]) / 86400000) - 1;
+  if (daysWithoutRecords > 0 && (!longestGap || daysWithoutRecords > longestGap.days)) {
+    longestGap = {
+      days: daysWithoutRecords,
+      start: sortedDates[index - 1],
+      end: sortedDates[index]
+    };
+  }
+}
+
+document.getElementById('totalTsi').textContent = totalTsiValue.toLocaleString('pt-BR');
+document.getElementById('activityCount').textContent =
+  `${activities.length} atividades registradas`;
+document.getElementById('recentRunKm').textContent =
+  `${recentRunDistance.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} km`;
+document.getElementById('recentRunSummary').textContent =
+  `${formatDate(recentActivityStart.toISOString().slice(0, 10))} a ${formatDate(latestActivityDate)} · ${recentRuns.length} corrida${recentRuns.length === 1 ? '' : 's'}`;
+
+const summaryParts = [];
+if (longestGap) {
+  summaryParts.push(`📌 Maior intervalo sem registros: ${longestGap.days} dias, entre ${formatDate(longestGap.start)} e ${formatDate(longestGap.end)}.`);
+}
+summaryParts.push('⚙️ LTHR atual: 180 bpm, ajustado após o teste TAF-CAS.');
+if (missingHeartRateDates.length) {
+  summaryParts.push(`${missingHeartRateDates.length} data${missingHeartRateDates.length === 1 ? '' : 's'} com atividade sem FC.`);
+}
+document.getElementById('activitySummaryNote').textContent = summaryParts.join(' ');
+
+const nextWorkoutDate = new Date(latestActivityDateValue);
+nextWorkoutDate.setUTCDate(nextWorkoutDate.getUTCDate() + 1);
+document.getElementById('nextWorkoutBasis').textContent =
+  `Sugestão para ${formatFullDate(nextWorkoutDate.toISOString().slice(0, 10))} · baseada nos registros disponíveis até ${formatFullDate(latestActivityDate)}`;
+
+const sensorAlert = document.getElementById('sensorAlert');
+if (missingHeartRateDates.length) {
+  sensorAlert.textContent =
+    `⚠️ ${missingHeartRateDates.length} data${missingHeartRateDates.length === 1 ? '' : 's'} possuem atividade sem FC. Sem esse dado, não é possível calcular IS/TSI com precisão para essas atividades.`;
+} else {
+  sensorAlert.textContent = '✓ Todas as atividades possuem dados de frequência cardíaca.';
+  sensorAlert.classList.remove('alert');
+  sensorAlert.classList.add('note');
+}
+
 const dateLabel = value => formatDate(value);
 const colorByCategory = {
   corrida: '#2a78d6',
@@ -280,7 +340,7 @@ const activityOrder = new Map(activityRows.map((row, index) => [row, index]));
 const filterButtons = [...document.querySelectorAll('.filter-btn')];
 const sortButtons = [...document.querySelectorAll('.sort-btn')];
 const filterStatus = document.getElementById('filterStatus');
-const dashboardEndDate = new Date(activities.at(-1).data + 'T00:00:00Z');
+const dashboardEndDate = latestActivityDateValue;
 const recentCutoff = new Date(dashboardEndDate);
 recentCutoff.setUTCDate(recentCutoff.getUTCDate() - 6);
 let activeActivityFilter = 'all';
@@ -440,6 +500,25 @@ const ctlData = [1.6,1.6,3.0,4.2,4.6,4.4,4.3,6.5,6.3,7.6,8.2,8.0,7.8,7.7,7.5,7.3
 const atlData = [9.1,7.8,14.9,20.5,20.2,17.5,15.2,25.9,22.5,27.2,28.4,24.6,21.3,18.5,16.0,13.9,12.0,10.4,9.1,7.8,10.0,8.7,11.0,9.5,8.2,7.1,6.2,5.4,4.7,4.0,3.5,3.0,2.6,7.6,6.6,8.9,13.0,11.3,9.8,8.5,10.3,8.9,7.7,6.7,5.8,8.5,7.4,6.4,5.5,4.8,4.2,5.6,17.8,15.4,15.6,13.5,11.7,10.2,8.8,7.6,6.6,5.7,5.0,6.6,8.8,10.8,9.4,15.2,15.7,13.6,11.8,13.1,11.4,9.9,8.6,7.4,6.4,5.6,4.8,4.2,3.6,10.5,12.7,10.9];
 const tsbData = [-7.5,-6.3,-12.0,-16.3,-15.6,-13.1,-10.8,-19.4,-16.1,-19.6,-20.1,-16.6,-13.5,-10.8,-8.5,-6.6,-4.9,-3.5,-2.2,-1.2,-2.9,-1.8,-3.6,-2.3,-1.3,-0.3,0.5,1.1,1.7,2.2,2.6,2.9,3.2,-1.0,-0.2,-2.1,-5.4,-3.9,-2.5,-1.4,-2.8,-1.7,-0.6,0.2,1.0,-1.3,-0.3,0.5,1.2,1.8,2.3,1.0,-9.0,-6.9,-6.9,-5.0,-3.4,-2.0,-0.9,0.1,0.9,1.7,2.2,0.9,-0.9,-2.6,-1.4,-6.1,-6.4,-4.5,-2.9,-4.0,-2.4,-1.1,-0.0,0.9,1.7,2.4,2.9,3.4,3.8,-1.9,-3.8,-2.2];
 
+const currentCtl = ctlData.at(-1);
+const currentAtl = atlData.at(-1);
+const currentTsb = tsbData.at(-1);
+const formStatus = currentTsb <= -15
+  ? 'fadiga elevada'
+  : currentTsb < 0
+    ? 'fadiga leve/moderada'
+    : currentTsb <= 5
+      ? 'equilibrado'
+      : 'descansado';
+const formatMetric = value => value.toLocaleString('pt-BR', {
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1
+});
+document.getElementById('currentForm').textContent = `TSB ${formatMetric(currentTsb)}`;
+document.getElementById('currentFormStatus').textContent = formStatus;
+document.getElementById('currentFormDetail').innerHTML =
+  `<strong>Último cálculo (${formLabels.at(-1)}):</strong> CTL (fitness) ${formatMetric(currentCtl)} · ATL (fadiga) ${formatMetric(currentAtl)} · <strong>TSB ${formatMetric(currentTsb)}</strong> — ${formStatus}.<br><br>`;
+
 const fitnessChart = new Chart(document.getElementById('fitnessChart'), {
   type: 'line',
   data: {
@@ -497,7 +576,7 @@ const periodCharts = [tsiChart, kmChart, hrChart, fitnessChart, tsbChart].map(ch
 
 function labelDate(label) {
   const match = String(label).match(/(\d{2})\/(\d{2})/);
-  return match ? new Date(Date.UTC(2026, Number(match[2]) - 1, Number(match[1]))) : null;
+  return match ? new Date(Date.UTC(Number(latestActivityDate.slice(0, 4)), Number(match[2]) - 1, Number(match[1]))) : null;
 }
 
 function formatPeriodDate(date) {
@@ -527,7 +606,7 @@ function applyDashboardPeriod(period) {
     button.setAttribute('aria-pressed', String(active));
   });
 
-  const firstDate = cutoff || new Date(Date.UTC(2026, 5, 24));
+  const firstDate = cutoff || new Date(firstActivityDate + 'T00:00:00Z');
   periodStatus.textContent = `Exibindo ${formatPeriodDate(firstDate)} a ${formatPeriodDate(dashboardEndDate)} · cálculos preservam todo o histórico`;
   renderActivityTable();
 }
