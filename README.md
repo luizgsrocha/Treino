@@ -1,34 +1,46 @@
 # Treino
 
-Dashboard pessoal para acompanhamento da evolução dos treinos, com foco principal no desempenho em corrida.
+Dashboard pessoal para acompanhar a evolução dos treinos, com foco na meta de correr **2.800 metros em 12 minutos**.
 
-## 🎯 Objetivo
+## Dashboard publicado
 
-**Correr 2.800 metros em 12 minutos.**
+https://luizgsrocha.github.io/Treino/
 
-O projeto reúne o histórico de atividades para acompanhar a evolução até essa meta, permitindo observar distância, duração, frequência cardíaca e carga de treinamento ao longo do tempo.
+## Como funciona
 
-## 📊 Sobre o projeto
+O dashboard é montado automaticamente no navegador a partir dos arquivos da pasta `data`. Ao incluir uma atividade, cartões, tabela, filtros e gráficos são recalculados sem editar o HTML.
 
-O `dashboard_treino.html` carrega os registros de `data/atividades.json` e apresenta indicadores como:
+```text
+index.html
+assets/
+  styles.css
+  dashboard.js
+data/
+  atividades.json
+  sono.json
+  configuracoes.json
+```
 
-- distância percorrida;
-- duração das atividades;
-- frequência cardíaca média e máxima;
-- TSI e carga acumulada;
-- CTL (fitness);
-- ATL (fadiga);
-- TSB (forma);
-- histórico de corridas, caminhadas, bike, musculação e outros exercícios.
+- `index.html`: estrutura sem dados ou cálculos fixos;
+- `assets/styles.css`: apresentação e responsividade;
+- `assets/dashboard.js`: validação, cálculos, filtros e gráficos;
+- `data/atividades.json`: fonte única das atividades;
+- `data/sono.json`: registros individuais de sono;
+- `data/configuracoes.json`: meta, histórico de LTHR e constantes de carga.
 
-A ideia é manter o histórico atualizado para avaliar a consistência dos treinos, a resposta do condicionamento e a aproximação da meta de **2.800 m em 12 minutos**.
+## Indicadores automáticos
 
-## 🌐 Dashboard publicado
+- TSI diário e acumulado;
+- carga móvel de sete dias;
+- CTL (fitness), ATL (fadiga) e TSB (forma);
+- distância e quantidade de corridas;
+- estimativa do melhor desempenho em 12 minutos;
+- frequência cardíaca e LTHR histórico;
+- médias de sono, quando `sono.json` possuir registros;
+- sugestão de próximo treino baseada na forma atual.
 
-https://luizgsrocha.github.io/Treino/dashboard_treino.html
+Os dias sem atividade são incluídos com carga zero nos cálculos de CTL e ATL. As constantes utilizadas ficam em `data/configuracoes.json`.
 
-## 🗂️ Fonte dos dados
+## Adicionando uma atividade
 
-As atividades ficam centralizadas em `data/atividades.json`. A tabela e os gráficos de carga, distância e frequência cardíaca são gerados a partir desse arquivo, evitando a repetição dos mesmos dados em vários trechos do dashboard.
-
-Cada atividade possui um identificador, data, categoria, duração e, quando disponíveis, distância, frequência cardíaca, intensidade e TSI.
+Inclua um objeto em `data/atividades.json`. Os campos obrigatórios são `id`, `data`, `categoria`, `atividade` e `duracao`. Distância, frequência cardíaca, intensidade e TSI podem ser `null` quando não estiverem disponíveis.
